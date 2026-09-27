@@ -46,7 +46,7 @@ export default function App() {
   const [logo, setLogo] = useState(null);
   const [useMaterai, setUseMaterai] = useState(false);
   
-  // Data Awal Generik & Netral
+  // Data Awal Generik
   const [formData, setFormData] = useState({
     kota: 'Jakarta',
     tanggal: new Date().toISOString().split('T')[0],
@@ -360,15 +360,15 @@ export default function App() {
           </div>
         </div>
 
-        {/* PANEL KANAN: LIVE PREVIEW DOKUMEN A4 */}
-        <div className="w-full lg:w-7/12 flex flex-col items-center justify-start overflow-x-auto print:w-full print:block print:p-0 print:m-0">
+        {/* PANEL KANAN: LIVE PREVIEW DOKUMEN A4 (Fix Alignment HP) */}
+        <div className="w-full lg:w-7/12 flex flex-col items-start lg:items-center justify-start overflow-x-auto w-full pb-4 print:w-full print:block print:p-0 print:m-0">
           <div className="mb-3 text-xs text-slate-500 font-medium flex items-center gap-1.5 print:hidden">
             <Printer className="w-4 h-4 text-blue-600" /> Live Preview Layout A4
           </div>
           
-          {/* Lembar A4 (Responsif HP & Presisi) */}
+          {/* Lembar A4 (Min-width dikunci 210mm dan dimulai dari x=0 agar scroll HP lancar) */}
           <div
-            className={`bg-white shadow-xl p-5 sm:p-10 w-full max-w-[210mm] min-w-[210mm] sm:min-w-0 text-slate-900 border border-slate-200 flex flex-col justify-between text-sm leading-relaxed print:shadow-none print:border-none print:w-full print:h-[275mm] print:p-0 ${
+            className={`bg-white shadow-xl p-8 sm:p-10 w-[210mm] min-w-[210mm] text-slate-900 border border-slate-200 flex flex-col justify-between text-sm leading-relaxed print:shadow-none print:border-none print:w-full print:h-[275mm] print:p-0 ${
               isInformal ? 'font-sans' : 'font-serif'
             }`}
             style={{ fontFamily: isInformal ? 'Georgia, sans-serif' : 'Times New Roman, serif' }}
@@ -419,10 +419,10 @@ export default function App() {
                 </p>
 
                 {!isInformal && (
-                  <div className="ml-4 sm:ml-6 my-3 space-y-1 text-sm bg-slate-50/50 p-2.5 rounded border border-slate-100">
-                    <p><span className="w-28 sm:w-36 inline-block font-medium">Nama</span>: {formData.pengirimNama}</p>
-                    <p><span className="w-28 sm:w-36 inline-block font-medium">NIM / NIK / ID</span>: {formData.pengirimIdentitas}</p>
-                    <p><span className="w-28 sm:w-36 inline-block font-medium">Jabatan / Status</span>: {formData.pengirimJabatan}</p>
+                  <div className="ml-6 my-3 space-y-1 text-sm bg-slate-50/50 p-2.5 rounded border border-slate-100">
+                    <p><span className="w-36 inline-block font-medium">Nama</span>: {formData.pengirimNama}</p>
+                    <p><span className="w-36 inline-block font-medium">NIM / NIK / ID</span>: {formData.pengirimIdentitas}</p>
+                    <p><span className="w-36 inline-block font-medium">Jabatan / Status</span>: {formData.pengirimJabatan}</p>
                   </div>
                 )}
 
