@@ -1,16 +1,31 @@
-# React + Vite
+# 📄 SuratCraft Pro — Multi-Layout Document Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Aplikasi web pembuat dokumen dan surat otomatis berbasis React.js yang dilengkapi dengan *live preview* A4 presisi, kustomisasi logo/kop surat, kustomisasi label identitas, opsi area materai, serta ekspor PDF 1 halaman yang pas dan rapi.
 
-Currently, two official plugins are available:
+🌐 **Live Demo:** [https://generator-surat-teal.vercel.app](https://generator-surat-teal.vercel.app) *(Ganti dengan link Vercel Anda)*
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ Fitur Utama
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🎨 **5 Template & Layout Berbeda Total:**
+  - **Surat Resmi / Formal:** Lengkap dengan Kop Surat, Logo, Nomor/Hal, dan Tanda Tangan Kanan Bawah.
+  - **Surat Pernyataan / Perjanjian:** Format judul tengah tanpa kop, serta **Dual Signatures** (Pihak I & Pihak II).
+  - **Undangan Acara / Non-Formal:** Layout kartu acara dengan *double border frame*.
+  - **Undangan Pernikahan (Wedding):** Desain elegan, informasi Akad & Resepsi, serta ornamen romantis.
+  - **Undangan Ulang Tahun:** Desain ceria/festive dengan detail waktu dan lokasi pesta.
+- 🖨️ **Presisi Print A4 & Export PDF:** Menggunakan aturan `@media print` khusus agar dokumen pas dalam 1 lembar A4 tanpa terpotong ke halaman 2.
+- 🖼️ **Upload Logo Real-Time:** Kustomisasi logo instansi/perusahaan secara langsung.
+- 🏷️ **Kustom Label Identitas & Jabatan:** Fleksibel mengubah label (NIM, NIK, NIP, Jabatan, Divisi) sesuai kebutuhan pengguna.
+- 🔖 **Placeholder Materai Rp 10.000:** Menambahkan kotak indikator area penempelan materai fisik dengan satu klik.
+- 📱 **Mobile & Desktop Responsive:** Antarmuka teroptimasi untuk layar HP maupun laptop.
 
-## Expanding the Oxlint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## 🛠️ Tech Stack
+
+- **Framework:** React.js (Vite)
+- **Styling:** Tailwind CSS
+- **Icons:** Lucide React
+- **Hosting / Deployment:** Vercel
+- **Version Control:** Git & GitHub
