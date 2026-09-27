@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { FileText, Printer, Upload, Check } from 'lucide-react';
+import { FileText, Printer, Upload, Check, Stamp } from 'lucide-react';
 
-// Template bawaan
+// Template bawaan umum
 const TEMPLATES = {
   izin: {
     nama: 'Surat Izin Formal',
@@ -44,24 +44,26 @@ const TEMPLATES = {
 export default function App() {
   const [selectedTemplate, setSelectedTemplate] = useState('izin');
   const [logo, setLogo] = useState(null);
+  const [useMaterai, setUseMaterai] = useState(false);
   
+  // Data Awal Generik & Netral
   const [formData, setFormData] = useState({
-    kota: 'Banjarmasin',
+    kota: 'Jakarta',
     tanggal: new Date().toISOString().split('T')[0],
-    instansi: 'Universitas Lambung Mangkurat',
-    alamatInstansi: 'Jl. Ahmad Yani No. 12, Banjarmasin, Kalimantan Selatan',
+    instansi: 'PT PERUSAHAAN CONTOH INDONESIA',
+    alamatInstansi: 'Jl. Jendral Sudirman No. 123, Jakarta Selatan',
     nomorSurat: TEMPLATES.izin.nomorSurat,
     perihal: TEMPLATES.izin.perihal,
     penerimaNama: 'Bapak/Ibu Pimpinan',
     penerimaJabatan: 'Kepala Bagian HRD',
     penerimaAlamat: 'Di Tempat',
     salamPembuka: TEMPLATES.izin.salamPembuka,
-    pengirimNama: 'Pinguin Imut',
-    pengirimIdentitas: '22101234567',
-    pengirimJabatan: 'Mahasiswa / Pemohon',
+    pengirimNama: 'Budi Santoso',
+    pengirimIdentitas: '1234567890',
+    pengirimJabatan: 'Staf / Karyawan',
     isiSurat: TEMPLATES.izin.isiSurat,
     salamPenutup: TEMPLATES.izin.salamPenutup,
-    penandatangan: 'Pinguin Imut'
+    penandatangan: 'Budi Santoso'
   });
 
   const handleTemplateChange = (templateKey) => {
@@ -117,7 +119,7 @@ export default function App() {
       `}</style>
 
       {/* Navbar Header (Sembunyi saat dicetak) */}
-      <header className="bg-slate-900 text-white p-4 shadow-md flex flex-wrap justify-between items-center px-6 gap-4 sticky top-0 z-50 print:hidden">
+      <header className="bg-slate-900 text-white p-4 shadow-md flex flex-wrap justify-between items-center px-4 sm:px-6 gap-4 sticky top-0 z-50 print:hidden">
         <div className="flex items-center gap-2">
           <FileText className="w-6 h-6 text-blue-400" />
           <div>
@@ -137,10 +139,10 @@ export default function App() {
       </header>
 
       {/* Main Container */}
-      <div className="flex-1 flex flex-col lg:flex-row p-6 gap-6 max-w-[1600px] mx-auto w-full print:p-0 print:m-0 print:max-w-none">
+      <div className="flex-1 flex flex-col lg:flex-row p-3 sm:p-6 gap-6 max-w-[1600px] mx-auto w-full print:p-0 print:m-0 print:max-w-none">
         
         {/* PANEL KIRI: FORM CONFIGURATION (Sembunyi saat dicetak) */}
-        <div className="w-full lg:w-5/12 bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col gap-5 h-fit print:hidden">
+        <div className="w-full lg:w-5/12 bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-6 flex flex-col gap-5 h-fit print:hidden">
           
           {/* Section 1: Template Selection */}
           <div>
@@ -333,28 +335,40 @@ export default function App() {
 
           <hr className="border-slate-100" />
 
-          {/* Section 5: Penandatangan */}
+          {/* Section 5: Penandatangan & Opsi Materai */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Nama Penandatangan</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Nama Penandatangan & Opsi</label>
             <input
               type="text"
               name="penandatangan"
               value={formData.penandatangan}
               onChange={handleChange}
-              className="w-full text-xs p-2 border border-slate-300 rounded-md outline-none"
+              className="w-full text-xs p-2 border border-slate-300 rounded-md outline-none mb-2"
             />
+            
+            {/* Checkbox Materai */}
+            <label className="flex items-center gap-2 cursor-pointer select-none mt-2 bg-slate-50 p-2 rounded border border-slate-200 hover:bg-slate-100 transition">
+              <input
+                type="checkbox"
+                checked={useMaterai}
+                onChange={(e) => setUseMaterai(e.target.checked)}
+                className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer"
+              />
+              <Stamp className="w-4 h-4 text-slate-500" />
+              <span className="text-xs text-slate-700 font-medium">Tambahkan Area Materai (Rp 10.000)</span>
+            </label>
           </div>
         </div>
 
         {/* PANEL KANAN: LIVE PREVIEW DOKUMEN A4 */}
-        <div className="w-full lg:w-7/12 flex flex-col items-center justify-start overflow-auto print:w-full print:block print:p-0 print:m-0">
+        <div className="w-full lg:w-7/12 flex flex-col items-center justify-start overflow-x-auto print:w-full print:block print:p-0 print:m-0">
           <div className="mb-3 text-xs text-slate-500 font-medium flex items-center gap-1.5 print:hidden">
             <Printer className="w-4 h-4 text-blue-600" /> Live Preview Layout A4
           </div>
           
-          {/* Lembar A4 (Tinggi dikunci & Flex-col digunakan untuk mendorong Tanda Tangan ke pojok bawah) */}
+          {/* Lembar A4 (Responsif HP & Presisi) */}
           <div
-            className={`bg-white shadow-xl p-10 w-[210mm] min-h-[297mm] text-slate-900 border border-slate-200 flex flex-col justify-between text-sm leading-relaxed print:shadow-none print:border-none print:w-full print:h-[275mm] print:p-0 ${
+            className={`bg-white shadow-xl p-5 sm:p-10 w-full max-w-[210mm] min-w-[210mm] sm:min-w-0 text-slate-900 border border-slate-200 flex flex-col justify-between text-sm leading-relaxed print:shadow-none print:border-none print:w-full print:h-[275mm] print:p-0 ${
               isInformal ? 'font-sans' : 'font-serif'
             }`}
             style={{ fontFamily: isInformal ? 'Georgia, sans-serif' : 'Times New Roman, serif' }}
@@ -405,10 +419,10 @@ export default function App() {
                 </p>
 
                 {!isInformal && (
-                  <div className="ml-6 my-3 space-y-1 text-sm bg-slate-50/50 p-2.5 rounded border border-slate-100">
-                    <p><span className="w-36 inline-block font-medium">Nama</span>: {formData.pengirimNama}</p>
-                    <p><span className="w-36 inline-block font-medium">NIM / NIK / ID</span>: {formData.pengirimIdentitas}</p>
-                    <p><span className="w-36 inline-block font-medium">Jabatan / Status</span>: {formData.pengirimJabatan}</p>
+                  <div className="ml-4 sm:ml-6 my-3 space-y-1 text-sm bg-slate-50/50 p-2.5 rounded border border-slate-100">
+                    <p><span className="w-28 sm:w-36 inline-block font-medium">Nama</span>: {formData.pengirimNama}</p>
+                    <p><span className="w-28 sm:w-36 inline-block font-medium">NIM / NIK / ID</span>: {formData.pengirimIdentitas}</p>
+                    <p><span className="w-28 sm:w-36 inline-block font-medium">Jabatan / Status</span>: {formData.pengirimJabatan}</p>
                   </div>
                 )}
 
@@ -418,14 +432,24 @@ export default function App() {
               </div>
             </div>
 
-            {/* Bagian Bawah: Tanda Tangan (Terikat di Pojok Kanan Paling Bawah Kertas) */}
+            {/* Bagian Bawah: Tanda Tangan & Area Materai */}
             <div className="flex justify-end mt-auto pt-6">
-              <div className="text-center w-52">
+              <div className="text-center w-60">
                 <p>{formData.kota}, {formData.tanggal}</p>
                 <p className="mt-0.5 font-medium">{isInformal ? 'Salam Hangat,' : 'Hormat Saya,'}</p>
-                <div className="h-20 flex items-center justify-center italic text-xs text-slate-300">
-                  ( Tanda Tangan )
+
+                {/* Area Tanda Tangan & Materai */}
+                <div className="h-20 flex items-center justify-center gap-2 my-1 relative">
+                  {useMaterai && (
+                    <div className="w-20 h-14 border border-dashed border-slate-300 rounded text-[9px] text-slate-400 flex items-center justify-center text-center p-1 uppercase tracking-wider leading-tight select-none">
+                      Materai<br />Rp 10.000
+                    </div>
+                  )}
+                  <div className="flex-1 italic text-xs text-slate-300">
+                    ( Tanda Tangan )
+                  </div>
                 </div>
+
                 <p className="font-bold underline">{formData.penandatangan}</p>
               </div>
             </div>
