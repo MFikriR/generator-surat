@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { FileText, Printer, Upload, Check, Stamp, Heart, Calendar, MapPin } from 'lucide-react';
+import { FileText, Printer, Upload, Check, Stamp, Heart, Calendar, MapPin, Cake, Gift } from 'lucide-react';
 
-// 4 Template Utama dengan Layout Berbeda
+// 5 Template Utama dengan Layout Berbeda Total
 const TEMPLATES = {
   resmi: {
     id: 'resmi',
@@ -42,6 +42,16 @@ const TEMPLATES = {
     salamPembuka: "Assalamu'alaikum Warahmatullahi Wabarakatuh",
     isiSurat: 'Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan syukuran pernikahan putra-putri kami:',
     salamPenutup: 'Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.',
+  },
+  ultah: {
+    id: 'ultah',
+    nama: 'Undangan Ulang Tahun',
+    jenis: 'ultah',
+    nomorSurat: '-',
+    perihal: 'BIRTHDAY CELEBRATION!',
+    salamPembuka: 'Halo Teman-teman Semua!',
+    isiSurat: 'Dalam rangka merayakan hari ulang tahunku yang ke-22, aku mau mengundang kalian semua untuk datang dan bersenang-senang bersama di acara makan malam dan syukuran kecil-kecilan.',
+    salamPenutup: 'Kehadiran dan doa kalian adalah kado terindah buatku. Sampai ketemu di lokasi pesta ya!',
   }
 };
 
@@ -75,7 +85,7 @@ export default function App() {
     salamPenutup: TEMPLATES.resmi.salamPenutup,
     penandatangan: 'Budi Santoso',
     
-    // Khusus Undangan Umum
+    // Khusus Undangan Umum & Ultah
     waktuAcara: '19.00 WIB - Selesai',
     lokasiAcara: 'Grand Ballroom Hotel, Jakarta',
 
@@ -303,7 +313,7 @@ export default function App() {
                 </div>
               )}
 
-              {currentJenis !== 'undangan' && (
+              {currentJenis !== 'undangan' && currentJenis !== 'ultah' && (
                 <div className="space-y-2 mt-3">
                   <label className="block text-[11px] text-slate-500 font-semibold">Tujuan / Kepada Yth:</label>
                   <input type="text" name="penerimaNama" placeholder="Nama Tujuan" value={formData.penerimaNama} onChange={handleChange} className="w-full text-xs p-2 border border-slate-300 rounded-md outline-none" />
@@ -315,10 +325,10 @@ export default function App() {
 
           <hr className="border-slate-100" />
 
-          {/* Form Khusus Undangan Acara */}
-          {currentJenis === 'undangan' && (
+          {/* Form Khusus Undangan Acara & Ultah */}
+          {(currentJenis === 'undangan' || currentJenis === 'ultah') && (
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Detail Acara Undangan</label>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Detail Waktu & Lokasi Pesta</label>
               <div className="space-y-2">
                 <input type="text" name="waktuAcara" placeholder="Jam / Waktu Acara" value={formData.waktuAcara} onChange={handleChange} className="w-full text-xs p-2 border border-slate-300 rounded-md outline-none" />
                 <input type="text" name="lokasiAcara" placeholder="Lokasi Tempat Acara" value={formData.lokasiAcara} onChange={handleChange} className="w-full text-xs p-2 border border-slate-300 rounded-md outline-none" />
@@ -332,31 +342,33 @@ export default function App() {
             <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Pengirim & Kustomisasi Jabatan</label>
               <div className="space-y-2 mb-2">
-                <input type="text" name="pengirimNama" placeholder="Nama Utama / Pihak I" value={formData.pengirimNama} onChange={handleChange} className="w-full text-xs p-2 border border-slate-300 rounded-md outline-none" />
+                <input type="text" name="pengirimNama" placeholder="Nama Utama / Yang Merayakan" value={formData.pengirimNama} onChange={handleChange} className="w-full text-xs p-2 border border-slate-300 rounded-md outline-none" />
                 
-                {/* Kustom Label & Nilai Identitas */}
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="block text-[10px] text-slate-400">Judul Label 1</label>
-                    <input type="text" name="labelIdentitas" value={formData.labelIdentitas} onChange={handleChange} className="w-full text-xs p-1.5 border border-slate-200 rounded outline-none bg-slate-50" />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] text-slate-400">Isi Nilai 1</label>
-                    <input type="text" name="pengirimIdentitas" value={formData.pengirimIdentitas} onChange={handleChange} className="w-full text-xs p-1.5 border border-slate-300 rounded outline-none" />
-                  </div>
-                </div>
+                {currentJenis !== 'ultah' && currentJenis !== 'undangan' && (
+                  <>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-[10px] text-slate-400">Judul Label 1</label>
+                        <input type="text" name="labelIdentitas" value={formData.labelIdentitas} onChange={handleChange} className="w-full text-xs p-1.5 border border-slate-200 rounded outline-none bg-slate-50" />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] text-slate-400">Isi Nilai 1</label>
+                        <input type="text" name="pengirimIdentitas" value={formData.pengirimIdentitas} onChange={handleChange} className="w-full text-xs p-1.5 border border-slate-300 rounded outline-none" />
+                      </div>
+                    </div>
 
-                {/* Kustom Label & Nilai Jabatan */}
-                <div className="grid grid-cols-2 gap-2">
-                  <div>
-                    <label className="block text-[10px] text-slate-400">Judul Label 2 (Jabatan)</label>
-                    <input type="text" name="labelJabatan" value={formData.labelJabatan} onChange={handleChange} className="w-full text-xs p-1.5 border border-slate-200 rounded outline-none bg-slate-50" />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] text-slate-400">Isi Nilai 2</label>
-                    <input type="text" name="pengirimJabatan" value={formData.pengirimJabatan} onChange={handleChange} className="w-full text-xs p-1.5 border border-slate-300 rounded outline-none" />
-                  </div>
-                </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-[10px] text-slate-400">Judul Label 2 (Jabatan)</label>
+                        <input type="text" name="labelJabatan" value={formData.labelJabatan} onChange={handleChange} className="w-full text-xs p-1.5 border border-slate-200 rounded outline-none bg-slate-50" />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] text-slate-400">Isi Nilai 2</label>
+                        <input type="text" name="pengirimJabatan" value={formData.pengirimJabatan} onChange={handleChange} className="w-full text-xs p-1.5 border border-slate-300 rounded outline-none" />
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
 
               {currentJenis === 'pernyataan' && (
@@ -370,7 +382,7 @@ export default function App() {
 
           {/* Isi Teks */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Isi Paragraf Surat</label>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Isi Paragraf Surat / Kartu</label>
             <div className="space-y-2">
               <textarea name="isiSurat" rows={3} placeholder="Isi Teks Utama" value={formData.isiSurat} onChange={handleChange} className="w-full text-xs p-2 border border-slate-300 rounded-md outline-none resize-none" />
               <textarea name="salamPenutup" rows={2} placeholder="Salam Penutup" value={formData.salamPenutup} onChange={handleChange} className="w-full text-xs p-2 border border-slate-300 rounded-md outline-none resize-none" />
@@ -381,22 +393,24 @@ export default function App() {
 
           {/* Opsi Materai & Penandatangan */}
           <div>
-            {currentJenis !== 'pernikahan' && (
+            {currentJenis !== 'pernikahan' && currentJenis !== 'ultah' && (
               <div className="mb-3">
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Nama Penandatangan</label>
                 <input type="text" name="penandatangan" value={formData.penandatangan} onChange={handleChange} className="w-full text-xs p-2 border border-slate-300 rounded-md outline-none" />
               </div>
             )}
-            <label className="flex items-center gap-2 cursor-pointer select-none bg-slate-50 p-2.5 rounded border border-slate-200 hover:bg-slate-100 transition">
-              <input type="checkbox" checked={useMaterai} onChange={(e) => setUseMaterai(e.target.checked)} className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer" />
-              <Stamp className="w-4 h-4 text-slate-500" />
-              <span className="text-xs text-slate-700 font-medium">Tambahkan Area Materai (Rp 10.000)</span>
-            </label>
+            {currentJenis !== 'ultah' && (
+              <label className="flex items-center gap-2 cursor-pointer select-none bg-slate-50 p-2.5 rounded border border-slate-200 hover:bg-slate-100 transition">
+                <input type="checkbox" checked={useMaterai} onChange={(e) => setUseMaterai(e.target.checked)} className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 cursor-pointer" />
+                <Stamp className="w-4 h-4 text-slate-500" />
+                <span className="text-xs text-slate-700 font-medium">Tambahkan Area Materai (Rp 10.000)</span>
+              </label>
+            )}
           </div>
         </div>
 
-        {/* PANEL KANAN: LIVE PREVIEW DOKUMEN A4 */}
-        <div className="w-full lg:w-7/12 flex flex-col items-center justify-start overflow-x-auto pb-4 print:w-full print:block print:p-0 print:m-0">
+        {/* PANEL KANAN: LIVE PREVIEW DOKUMEN A4 (Fix Alignment x=0 pada Mobile) */}
+        <div className="w-full lg:w-7/12 flex flex-col items-start lg:items-center justify-start overflow-x-auto pb-4 print:w-full print:block print:p-0 print:m-0">
           <div className="mb-3 text-xs text-slate-500 font-medium flex items-center gap-1.5 print:hidden">
             <Printer className="w-4 h-4 text-blue-600" /> Live Preview Tampilan Dokumen A4
           </div>
@@ -606,6 +620,47 @@ export default function App() {
                 <div className="pt-2">
                   <p className="text-[10px] uppercase tracking-widest text-slate-400">Kami Yang Berbahagia,</p>
                   <p className="text-sm font-bold text-slate-800 mt-0.5">Keluarga Besar Kedua Mempelai</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ========================================================
+              LAYOUT 5: UNDANGAN ULANG TAHUN (BIRTHDAY CARD)
+             ======================================================== */}
+          {currentJenis === 'ultah' && (
+            <div className="a4-document bg-gradient-to-b from-pink-50 via-purple-50 to-blue-50 shadow-xl p-8 sm:p-10 w-[210mm] min-w-[210mm] text-slate-800 border-4 border-dashed border-pink-300 rounded-2xl flex flex-col justify-between text-sm leading-relaxed font-sans text-center break-words box-border">
+              <div className="flex flex-col items-center justify-between my-auto space-y-5">
+                
+                {/* Header Cake Icon */}
+                <div className="space-y-2">
+                  <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto shadow-inner border border-pink-200">
+                    <Cake className="w-9 h-9 text-pink-500" />
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-[0.25em] text-pink-500">Party Invitation</span>
+                  <h1 className="text-3xl font-extrabold text-purple-900 tracking-wider uppercase">{formData.perihal}</h1>
+                </div>
+
+                <p className="text-base font-bold text-pink-600">{formData.salamPembuka}</p>
+                <p className="max-w-lg text-slate-700 leading-relaxed mx-auto text-sm">{formData.isiSurat}</p>
+
+                {/* Box Detail Waktu & Lokasi */}
+                <div className="bg-white/80 backdrop-blur-sm border-2 border-pink-200 p-5 rounded-2xl w-full max-w-md space-y-3 shadow-md my-2">
+                  <div className="flex items-center justify-center gap-2 text-purple-900 font-bold text-sm">
+                    <Calendar className="w-4 h-4 text-pink-500 flex-shrink-0" />
+                    <span>{formData.kota}, {formData.tanggal} ({formData.waktuAcara})</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 text-slate-600 text-xs">
+                    <MapPin className="w-4 h-4 text-purple-500 flex-shrink-0" />
+                    <span className="font-medium break-words">{formData.lokasiAcara}</span>
+                  </div>
+                </div>
+
+                <p className="text-xs text-purple-700 italic max-w-md font-medium">{formData.salamPenutup}</p>
+
+                <div className="pt-3 border-t border-pink-200 w-full max-w-xs">
+                  <p className="text-[10px] uppercase tracking-widest text-pink-400 font-bold">Salam Hangat,</p>
+                  <p className="text-xl font-black text-purple-900 mt-1">{formData.pengirimNama}</p>
                 </div>
               </div>
             </div>
